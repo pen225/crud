@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/fontawesome-free-6.0.0-web/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/createCompte.css">
+    <title>Connexion</title>
+</head>
+<body>
+    <div class="webSiteBg">
+        <div class="container-fluid content">
+        <div class="row element">
+            <div class="col-lg-6 boite boiteMsg">
+                <h3><span class="bienvenue">bienvenue, <br></span> merci de bien remplir<br> le formulaire présent</h3>
+            </div>
+            <div class="col-lg-6 boite boiteConnexion">
+                <h1>Login</h1>
+                <form action="/creatCompte" method="post">
+                    <div class="d-flex justify-content-space-between">
+                        <label for="nom"><i class="fa-solid fa-user "></i></label><input class="form-control" type="text" placeholder="Votre nom" name="nom" id="nom">
+                    </div>
+                    <div class="">
+                        <label for="prenom"><i class="fa-solid fa-lock"></i></label><input class="form-control" type="text" placeholder="Votre prenom" name="prenom" id="prenom">
+                    </div>
+                    <div class="">
+                        <label for="email"><i class="fa-solid fa-lock"></i></label><input class="form-control" type="email" placeholder="Votre mail" name="email" id="email">
+                    </div>
+                    <div class="">
+                        <label for="password"><i class="fa-solid fa-lock"></i></label><input class="form-control" type="password" placeholder="Mot de passe" name="password" id="password">
+                    </div>
+                    <div class="">
+                        <label for="repeatePassword"><i class="fa-solid fa-lock"></i></label><input class="form-control" type="password" placeholder="Repetez votre mot de passe" name="repeatePassword" id="repeatePassword">
+                    </div>
+                    <div class="">
+                        <input class="form-control" type="submit" value="SE CONNECTER" style="padding-left: 0px !important;">
+                    </div>
+                    <div class="" style="color: #6e00fd;">
+                        <a href="#">Créez un compte.</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
