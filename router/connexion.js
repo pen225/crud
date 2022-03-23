@@ -4,6 +4,7 @@ const router = express.Router();
 
 
 router.get('/', userController.afficheConnexion);
+router.post('/', userController.connexion);
 
 
 module.exports = router;

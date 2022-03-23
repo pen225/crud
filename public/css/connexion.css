@@ -49,6 +49,7 @@
 .boiteConnexion{
     background-color: rgba(255, 255, 255, 0.90);
     border-radius: 10px;
+    width: 400px !important;
 }
 .boiteConnexion h1{
     color: #6e00fd;
@@ -59,6 +60,16 @@
     color: #6e00fd;
     font-size: 25px;
     margin: 10px;
+}
+.fa-arrow-right-long{
+    font-size: 16px;
+}
+.textCreatComte{
+    display: flex;
+}
+.textCreatComte a{
+    position: relative;
+    top: 4px;
 }
 /* .fa-user{
     margin: 5px 10px;
@@ -71,7 +82,6 @@ input{
     padding-left: 40px !important;
     outline-style: none;
     height: 50px;
-    width: 400px !important;
 }
 input[type="submit"] {
     color: white;

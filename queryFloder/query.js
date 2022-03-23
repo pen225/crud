@@ -14,6 +14,19 @@ const userQuery = class{
         });
     }
 
+    static connexion = (data) =>{
+        let {email, password} = data;
+        let sql = "select * from users where email = ? and password =?";
+
+        dbConnect.query(sql, [email, password], (err, res) =>{
+            if (!err) {
+                console.log("success",res);
+            }else{
+                console.log("erreur d'insersion");
+            }
+        });
+    }
+
     
 }
 

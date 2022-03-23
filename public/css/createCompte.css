@@ -49,6 +49,7 @@
 .boiteConnexion{
     background-color: rgba(255, 255, 255, 0.90);
     border-radius: 10px;
+    width: 400px !important;
 }
 .boiteConnexion h1{
     color: #6e00fd;
@@ -60,23 +61,34 @@
     font-size: 25px;
     margin: 10px;
 }
+.fa-arrow-left-long{
+    font-size: 16px;
+}
+.textCreatComte{
+    display: flex;
+}
+.textCreatComte a{
+    position: relative;
+    top: 4px;
+}
 /* .fa-user{
     margin: 5px 10px;
 } */
-.fa-lock{
-    /* margin: 5px 10px; */
+/* .fa-lock{
+    margin: 5px 10px;
     margin-top: 16px;
-}
+} */
 input{
     padding-left: 40px !important;
     outline-style: none;
     height: 50px;
-    width: 400px !important;
+    margin-bottom: 20px;
+    /* width: 400px !important; */
 }
 input[type="submit"] {
     color: white;
     background-color: #6e00fd;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 form div a{
     text-decoration: none;
@@ -84,4 +96,8 @@ form div a{
 form div a:active{
     color: #6e00fd;
     font-weight: bold;
+}
+
+.champIvalide{
+    color: red;
 }
