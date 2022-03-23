@@ -1,5 +1,6 @@
 const {request, response} = require('express');
 const userQuery = require('../queryFloder/query');
+const { check, validationResult } = require('express-validator');
 
 const userController = class{
 
@@ -13,7 +14,8 @@ const userController = class{
 
     static insert = (req = request, res = response) =>{
         console.log(req.body);
-        userQuery.insertDonnees(req.body);
+        
+        // userQuery.insertDonnees(req.body);
         res.redirect('/creatCompte');
     }
 }
