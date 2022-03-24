@@ -2,45 +2,51 @@ const dbConnect = require('../database');
 
 const userQuery = class{
     static insertDonnees = (data) =>{
+        let {nom, prenom, email, password} = data;
+        let sql = "insert into users (nom, prenom, email, password) values(?, ?, ?, ?)";
+        let verif = "select * from users where email = ?";
+
         return new Promise((resolve, reject) =>{
-            let {nom, prenom, email, password} = data;
-            let sql = "insert into users (nom, prenom, email, password) values(?, ?, ?, ?)";
-            let verif = "select * from user where email = ?";
-
-        dbConnect.query(verif, [email], (erreur, resultat) =>{
-            if (resultat) {
-                dbConnect.query(sql, [nom, prenom, email, password], (err, res) =>{
-                    if (erreur) {
-                        reject(err);
-                        // console.log("erreur d'insersion");
-                        
-                    }else{
-                        resolve(res);
-                        // console.log("success",res);
-                    }
-                });
-                
-            }else{
-                reject({message: "email exist"})
-            }
-        })
-
-       
+            dbConnect.query(verif,[email], (error, resultats) =>{
+                if (resultats == '') {
+                    console.log(resultats);
+                    console.log("inscrivez vous");
+                    dbConnect.query(sql, [nom, prenom, email, password], (error, resultat) =>{
+                        if (error) {
+                            reject(error);
+                            console.log("erreur d'insersion");
+                            
+                        }else{
+                            resolve(resultat);
+                            console.log("success",resultat);
+                        }
+                    });
+                }else{
+                    reject({message: "email exist"})
+                    console.log("email exist");
+                }
+            })
         })
         
     }
 
     static connexion = (data) =>{
-        let {email, password} = data;
-        let sql = "select * from users where email = ? and password =?";
-
-        dbConnect.query(sql, [email, password], (err, res) =>{
-            if (!err) {
-                console.log("success",res);
-            }else{
-                console.log("erreur de conexion");
-            }
-        });
+        return new Promise((resolve,reject) =>{
+            let {email, password} = data;
+            let sql = "select * from users where email = ? and password =?";
+            dbConnect.query(sql, [email, password], (err, resultat) =>{
+                if (resultat == '') {
+                    // reject(err);
+                    reject({message: "erreur de conexion"})
+                    console.log("erreur de conexion");
+                }else{
+                    
+                    console.log("success connexion",resultat);
+                    resolve(resultat);
+                }
+            });
+        })
+        
     }
 
     

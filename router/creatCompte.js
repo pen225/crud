@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // Mes differentes routes
-router.get('/', userController.afficheCreateCompte); 
+router.get('/', validator, userController.afficheCreateCompte); 
 
 router.post('/',validator,userController.insert);
 

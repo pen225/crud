@@ -18,6 +18,10 @@
             </div>
             <div class="col-lg-6 boite boiteConnexion">
                 <h1>Register</h1>
+                <% if (err) {%>
+                    <p class="champIvalide"><%= err.message %> </p>
+
+                <% }%>
                 <form action="/creatCompte" method="post">
                     <% if (err && err.nom) {  %>
                     <div class="champIvalide">
