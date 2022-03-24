@@ -2,16 +2,32 @@ const dbConnect = require('../database');
 
 const userQuery = class{
     static insertDonnees = (data) =>{
-        let {nom, prenom, email, password} = data;
-        let sql = "insert into users (nom, prenom, email, password) values(?, ?, ?, ?)";
+        return new Promise((resolve, reject) =>{
+            let {nom, prenom, email, password} = data;
+            let sql = "insert into users (nom, prenom, email, password) values(?, ?, ?, ?)";
+            let verif = "select * from user where email = ?";
 
-        dbConnect.query(sql, [nom, prenom, email, password], (err, res) =>{
-            if (!err) {
-                console.log("success",res);
+        dbConnect.query(verif, [email], (erreur, resultat) =>{
+            if (resultat) {
+                dbConnect.query(sql, [nom, prenom, email, password], (err, res) =>{
+                    if (erreur) {
+                        reject(err);
+                        // console.log("erreur d'insersion");
+                        
+                    }else{
+                        resolve(res);
+                        // console.log("success",res);
+                    }
+                });
+                
             }else{
-                console.log("erreur d'insersion");
+                reject({message: "email exist"})
             }
-        });
+        })
+
+       
+        })
+        
     }
 
     static connexion = (data) =>{
@@ -22,7 +38,7 @@ const userQuery = class{
             if (!err) {
                 console.log("success",res);
             }else{
-                console.log("erreur d'insersion");
+                console.log("erreur de conexion");
             }
         });
     }

@@ -22,7 +22,7 @@ const userController = class{
             console.log(err);
             // return res.status(422).jsonp(errors.array());
         }else{
-            // userQuery.insertDonnees(req.body);
+            userQuery.insertDonnees(req.body);
             res.redirect('/');
         }
         
