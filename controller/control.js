@@ -48,13 +48,13 @@ const userController = class{
 
             userQuery.connexion(req.body)
             .then(success =>{
-                console.log(success);
+                console.log(`Control success`,success);
                 res.send('connexion reussie')
                 // res.redirect('/');
             })
             .catch(error=>{
                 res.render('../views/connexion', {error: "error"});
-                console.log(error);
+                // console.log(error);
                 // res.send('connexion echouee')
             })
         }

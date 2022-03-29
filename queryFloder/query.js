@@ -41,7 +41,7 @@ const userQuery = class{
                     console.log("erreur de conexion");
                 }else{
                     
-                    console.log("success connexion",resultat);
+                    // console.log("success connexion",resultat);
                     resolve(resultat);
                 }
             });

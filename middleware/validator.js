@@ -1,5 +1,5 @@
 const { check} = require('express-validator');
-const { is } = require('express/lib/request');
+// const { is } = require('express/lib/request');
 // const userQuery = require('../queryFloder/query');
 
 
