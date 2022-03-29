@@ -1,6 +1,5 @@
 const express = require('express');
 const userController = require('../controller/control');
-const userQuery = require('../queryFloder/query');
 const { validator, result } = require('../middleware/validator');
 
 const router = express.Router();

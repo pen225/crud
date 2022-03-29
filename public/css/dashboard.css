@@ -1,0 +1,40 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background: #6e00fd;
+}
+
+.userName{
+    /* height: 50px;
+    width: 50px;
+    border-radius: 50%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userImage{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    background: url('../images/man.svg');
+    background-size: contain;
+}
+
+form button{
+    position: absolute;
+    top: 55px;
+    right: 30px;
+}
+
+.btn-logout{
+    display: none;
+}
+/* .btn-logout:hover{
+    display: block;
+} */

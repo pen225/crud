@@ -1,6 +1,4 @@
 const { check} = require('express-validator');
-const { is } = require('express/lib/request');
-// const userQuery = require('../queryFloder/query');
 
 
 const validator = [
@@ -18,9 +16,6 @@ const validator = [
         .isLength({ min: 4 }),
     check('repeatePassword')
         .trim()
-        // .exists()
-        // .withMessage('Password must be between 4 to 16 characters')
-        // .withMessage('Password must be between 4 to 16 characters')
         .isLength({min:4, max:16})
         .custom( async (repeatePassword, {req}) =>{
             const password = req.body.password

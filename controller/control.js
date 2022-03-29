@@ -1,8 +1,14 @@
 const {request, response} = require('express');
 const userQuery = require('../queryFloder/query');
 const {validationResult } = require('express-validator');
+const bcryptjs = require('bcryptjs');
 
 const userController = class{
+
+    static afficheDashboard = (req = request, res = response) =>{
+        res.render('dashboard');
+    }
+
 
     static afficheConnexion = (req = request, res = response) =>{
         res.render('../views/connexion');
@@ -12,29 +18,74 @@ const userController = class{
         res.render('../views/creatCompte', {err:{}});
     }
 
-    static insert = (req = request, res = response) =>{
-        console.log(req.body);
+    static insert = async (req = request, res = response) =>{
+
         const errors = validationResult(req);
-            
-        if (!errors.isEmpty()) {
-            const err = errors.mapped();
-            res.render('../views/creatCompte', {err: err});
-            console.log(err);
-            // return res.status(422).jsonp(errors.array());
-        }else{
-            userQuery.insertDonnees(req.body);
-            res.redirect('/');
-        }
+            if (!errors.isEmpty()) {
+                const err = errors.mapped();
+                res.render('../views/creatCompte', {err: err});
+                console.log(err);
+                // return res.status(422).jsonp(errors.array());
+            }else{
+                let passwordhash = await bcryptjs.hash(req.body.password, 8)
+                console.log('passwordHash est :', passwordhash)
+                let users={       
+                    "nom":req.body.nom,       
+                    "prenom":req.body.prenom,       
+                    "email":req.body.email,
+                    "password":passwordhash,
+                }     
+                console.log(users)
+                userQuery.insertDonnees(users)
+                .then(success =>{
+                    console.log("pen",req.body);
+                    res.redirect('/');
+                })
+                .catch(error =>{
+                    res.render('creatCompte',{err:error})
+                    console.log(error);
+                })
+                
+            }
         
-        // userQuery.insertDonnees(req.body);
-        // res.redirect('/creatCompte');
+        // try {
+        //     const errors = validationResult(req);
+        //     if (!errors) {
+        //         const err = errors.mapped();
+        //         res.render('../views/creatCompte', {err: err});
+        //         console.log(err);
+        //         // return res.status(422).jsonp(errors.array());
+        //     }else{
+        //         let passwordhash = await bcryptjs.hash(req.body.password, 8)
+        //         console.log('passwordHash est :', passwordhash)
+        //         let users={       
+        //             "nom":req.body.nom,       
+        //             "prenom":req.body.prenom,       
+        //             "email":req.body.email,
+        //             "password":passwordhash,
+        //         }     
+        //         console.log(users)
+        //         userQuery.insertDonnees(req.body);
+        //         console.log("pen",req.body);
+        //         res.redirect('/');
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
+        
     }
 
-    static connexion = (req = request, res = response) =>{
+    static connexion = async (req = request, res = response) =>{
         // res.render('../views/creatCompte', {err:{}});
-        res.send('Connexion réussie');
         // console.log(req.body);
-        userQuery.connexion(req.body)
+        try {
+            userQuery.connexion(req.body)
+            res.redirect('/');
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
 }
 
