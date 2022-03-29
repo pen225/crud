@@ -95,3 +95,6 @@ form div a:active{
     color: #6e00fd;
     font-weight: bold;
 }
+.champIvalide{
+    color: red;
+}

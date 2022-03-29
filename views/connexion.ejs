@@ -28,6 +28,11 @@
                     <div class="">
                         <input class="form-control" type="submit" value="SE CONNECTER" style="padding-left: 0px !important;">
                     </div>
+                    <% if (err || err.message) {  %>
+                        <div class="champIvalide">
+                            <%= err%>
+                        </div>
+                    <% } %>
                     <div class="textCreatComte" style="color: #6e00fd;">
                         <a href="/creatCompte">Créez un compte.</a><span><i class="fa-solid fa-arrow-right-long"></i></span>
                     </div>

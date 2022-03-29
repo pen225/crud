@@ -17,7 +17,13 @@
                 <h3><span class="bienvenue">bienvenue, <br></span> merci de bien remplir<br> le formulaire présent</h3>
             </div>
             <div class="col-lg-6 boite boiteConnexion">
+                <% if (err && err.message) {  %>
+                    <div class="champIvalide">
+                        <%= err.message %>
+                    </div>
+                <% } %>
                 <h1>Register</h1>
+
                 <form action="/creatCompte" method="post">
                     <% if (err && err.nom) {  %>
                     <div class="champIvalide">

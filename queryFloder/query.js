@@ -37,13 +37,20 @@ const userQuery = class{
         let {email, password} = data;
         let sql = "select * from users where email = ? and password =?";
 
-        dbConnect.query(sql, [email, password], (err, res) =>{
-            if (!err) {
-                console.log("success",res);
-            }else{
-                console.log("erreur de conexion");
-            }
-        });
+        return new Promise((resolve, reject) =>{
+
+            dbConnect.query(sql, [email, password], (err, res) =>{
+                if (res) {
+                    console.log("success",res);
+                    resolve(res)
+                }else{
+                    console.log("erreur de conexion");
+                    reject({message: "Email ou mot de passe incorrect"})
+                }
+            });
+        })
+
+        
     }
 
     
