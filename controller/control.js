@@ -2,20 +2,32 @@ const {request, response} = require('express');
 const userQuery = require('../queryFloder/query');
 const {validationResult } = require('express-validator');
 const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs/dist/bcrypt');
 
 const userController = class{
 
     static afficheDashboard = (req = request, res = response) =>{
         res.render('dashboard');
+        // , {message: 'Bienvenue, ' + req.session.email}
+    }
+    static logoutDashboard = (req = request, res = response) =>{
+        if (req.session.email) {
+            req.session.destroy();
+        }
+        res.redirect('/');
+        // res.render('dashboard', {message: 'Bienvenue, ' + req.session.email});
     }
 
 
     static afficheConnexion = (req = request, res = response) =>{
-        res.render('../views/connexion');
+        if (req.session.user) {
+            return res.redirect('/')
+        }
+        res.render('connexion',{err:{}});
     }
 
     static afficheCreateCompte = (req = request, res = response) =>{
-        res.render('../views/creatCompte', {err:{}});
+        res.render('../views/creatCompte',{err:{}} );
     }
 
     static insert = async (req = request, res = response) =>{
@@ -29,17 +41,10 @@ const userController = class{
             }else{
                 let passwordhash = await bcryptjs.hash(req.body.password, 8)
                 console.log('passwordHash est :', passwordhash)
-                let users={       
-                    "nom":req.body.nom,       
-                    "prenom":req.body.prenom,       
-                    "email":req.body.email,
-                    "password":passwordhash,
-                }     
-                console.log(users)
-                userQuery.insertDonnees(users)
+                userQuery.insertDonnees(req.body)
                 .then(success =>{
                     console.log("pen",req.body);
-                    res.redirect('/');
+                    res.redirect('/connexion');
                 })
                 .catch(error =>{
                     res.render('creatCompte',{err:error})
@@ -50,16 +55,30 @@ const userController = class{
     }
 
     static connexion = (req = request, res = response) =>{
-        // res.render('../views/creatCompte', {err:{}});
-        // console.log(req.body);
         userQuery.connexion(req.body)
         .then(success=>{
-            console.log('success connect', success[0].email);
-            res.redirect('/');
+
+            const passconnect = req.body.password;
+            const email = req.body.email;
+            const compare = bcrypt.compareSync(passconnect, success[0].password);
+            console.log("cxgbhffhfhhffh",compare);
+            if (compare) {
+                res.redirect('/');
+            }else{
+
+                res.render('connexion', {err:"Email ou mot de passe incorrect"})
+            }
+            let session = {
+                email: req.body.email,
+                password: req.body.password
+            }
+            req.session.user = session;
+            // console.log('success connect', success[0].email);
+            console.log("session", req.session.user);
+
         })
         .catch(error =>{
-            res.render('connexion', {err:"Email ou mot de passe incorrect"})
-            console.log("erreur d'authentification", error);
+            console.log(error);
         })
         
         

@@ -27,13 +27,13 @@ body{
 }
 
 form button{
-    position: absolute;
-    top: 55px;
-    right: 30px;
+    position: relative;
+    /* top: 55px;
+    right: 30px; */
 }
 
 .btn-logout{
-    display: none;
+    visibility: hidden;
 }
 /* .btn-logout:hover{
     display: block;

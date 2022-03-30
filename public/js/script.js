@@ -3,16 +3,16 @@ const logOut = document.querySelector('.btn-logout');
 
 
 userImage.addEventListener('mouseover', () =>{
-    logOut.style.display ="block";
+    logOut.style.visibility ="visible";
 })
 
 userImage.addEventListener('mouseout', () =>{
-    logOut.style.display ="none";
+    logOut.style.visibility ="hidden";
 })
 
 logOut.addEventListener('mouseover', () =>{
-    logOut.style.display ="block";
+    logOut.style.visibility ="visible";
 })
 logOut.addEventListener('mouseout', () =>{
-    logOut.style.display ="none";
+    logOut.style.visibility ="hidden";
 })

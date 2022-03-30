@@ -1,5 +1,5 @@
 const dbConnect = require('../database');
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const userQuery = class{
     static insertDonnees = (data) =>{
@@ -13,7 +13,8 @@ const userQuery = class{
                 console.log('error', error);
             if (resultat == '') {
                 
-                dbConnect.query(sql, [nom, prenom, email, password], (error, result) =>{
+                const hashpassword = bcrypt.hashSync(password, 8);
+                dbConnect.query(sql, [nom, prenom, email, hashpassword], (error, result) =>{
                     if (error) {
                         reject(error);
                         // console.log("erreur d'insersion");
@@ -34,18 +35,16 @@ const userQuery = class{
     }
 
     static connexion = (data) =>{
-        let {email, password} = data;
-        let sql = "select * from users where email = ? and password =?";
-
         return new Promise((resolve, reject) =>{
-
-            dbConnect.query(sql, [email, password], (err, res) =>{
+            let {email} = data;
+            let sql = "select * from users where email = ?";
+            dbConnect.query(sql, [email], (err, res) =>{
                 if (res) {
                     console.log("success",res);
                     resolve(res)
                 }else{
                     console.log("erreur de conexion");
-                    reject({message: "Email ou mot de passe incorrect"})
+                    reject(err)
                 }
             });
         })
