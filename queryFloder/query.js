@@ -17,8 +17,6 @@ const userQuery = class{
                 dbConnect.query(sql, [nom, prenom, email, hashpassword], (error, result) =>{
                     if (error) {
                         reject(error);
-                        // console.log("erreur d'insersion");
-                        
                     }else{
                         resolve(result);
                         console.log("success",result);
@@ -48,11 +46,8 @@ const userQuery = class{
                 }
             });
         })
-
-        
     }
 
-    
 }
 
 module.exports = userQuery;

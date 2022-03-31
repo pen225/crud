@@ -15,16 +15,17 @@ dbConnect.connect((err) =>{
         console.log("connexion réussie");
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
+        
         app.use('/', dashboard);
         app.use('/connexion', connexion);
         app.use('/creatCompte', creatCompte);
 
-        app.use(session({
-            secret: 'AZERTYUI',
-            resave: false,
-            saveUninitialized: true,
-            cookie: {maxAge: 5}
-        }));
+        // app.use(session({
+        //     secret: 'AZERTYUI',
+        //     resave: false,
+        //     saveUninitialized: true,
+        //     cookie: {maxAge: 1800000000000}
+        // }));
     } else{
         console.log("erreur", err);
     }
@@ -35,6 +36,6 @@ dbConnect.connect((err) =>{
 
 
 
-app.listen(7000, () =>{
-    console.log('listening on port 7000');
+app.listen(process.env.PORT, () =>{
+    console.log(`listening on port ${process.env.PORT}`);
 });

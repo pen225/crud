@@ -3,6 +3,12 @@ const userQuery = require('../queryFloder/query');
 const {validationResult } = require('express-validator');
 const bcryptjs = require('bcryptjs');
 const bcrypt = require('bcryptjs/dist/bcrypt');
+const jwt = require('jsonwebtoken')
+// const {promisify} = require('util');
+const userToken = require('../middleware/token');
+const envoiMail = require('../middleware/nodemailer');
+
+
 
 const userController = class{
 
@@ -11,19 +17,19 @@ const userController = class{
         // , {message: 'Bienvenue, ' + req.session.email}
     }
     static logoutDashboard = (req = request, res = response) =>{
-        if (req.session.email) {
-            req.session.destroy();
-        }
+        // if (req.session.email) {
+        //     req.session.destroy();
+        // }
         res.redirect('/');
         // res.render('dashboard', {message: 'Bienvenue, ' + req.session.email});
     }
 
 
     static afficheConnexion = (req = request, res = response) =>{
-        if (req.session.user) {
-            return res.redirect('/')
-        }
-        res.render('connexion',{err:{}});
+        // if (req.session.user) {
+        //     return res.redirect('/')
+        // }
+        res.render('connexion', {err: ""});
     }
 
     static afficheCreateCompte = (req = request, res = response) =>{
@@ -39,17 +45,20 @@ const userController = class{
                 console.log(err);
                 // return res.status(422).jsonp(errors.array());
             }else{
-                let passwordhash = await bcryptjs.hash(req.body.password, 8)
-                console.log('passwordHash est :', passwordhash)
-                userQuery.insertDonnees(req.body)
-                .then(success =>{
-                    console.log("pen",req.body);
-                    res.redirect('/connexion');
-                })
-                .catch(error =>{
-                    res.render('creatCompte',{err:error})
-                    console.log(error);
-                })
+                
+                let token = userToken.creatToken(req.body);
+                envoiMail(req.body.email, token)
+
+                // verifToken(token)
+                // userQuery.insertDonnees(req.body)
+                // .then(success =>{
+                //     console.log("pen",req.body);
+                //     res.redirect('/connexion');
+                // })
+                // .catch(error =>{
+                //     res.render('creatCompte',{err:error})
+                //     console.log(error);
+                // })
                 
             }
     }
@@ -61,20 +70,21 @@ const userController = class{
             const passconnect = req.body.password;
             const email = req.body.email;
             const compare = bcrypt.compareSync(passconnect, success[0].password);
-            console.log("cxgbhffhfhhffh",compare);
+            console.log("resultat de comparaison",compare);
             if (compare) {
                 res.redirect('/');
             }else{
-
                 res.render('connexion', {err:"Email ou mot de passe incorrect"})
             }
-            let session = {
-                email: req.body.email,
-                password: req.body.password
-            }
-            req.session.user = session;
+             const id = success[0].id;
+            //  const token = jwt.sign({id: id}, )
+            // let session = {
+            //     email: req.body.email,
+            //     password: req.body.password
+            // }
+            // req.session.user = session;
             // console.log('success connect', success[0].email);
-            console.log("session", req.session.user);
+            // console.log("session", req.session.user);
 
         })
         .catch(error =>{
