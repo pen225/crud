@@ -35,6 +35,15 @@ form button{
 .btn-logout{
     visibility: hidden;
 }
-/* .btn-logout:hover{
-    display: block;
-} */
+
+.contain-game{
+    height: 600px;
+    width: 600px;
+    border: 1px solid white;
+    box-shadow: 0px 0px 4px white inset;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
