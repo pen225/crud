@@ -19,9 +19,11 @@ const userToken = class{
         try {
             let decoded = jwt.verify(token, process.env.JWT_PASS_SECRET);
             console.log(decoded);
+            return {success: decoded}
           } catch {
             // err
             console.log("Token non valide");
+            return {error: "Token non valide"}
         }
     }
 

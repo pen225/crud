@@ -3,33 +3,18 @@ const bcrypt = require('bcryptjs');
 
 const userQuery = class{
     static insertDonnees = (data) =>{
-        let {nom, prenom, email, password} = data;
+        let {nom, prenom, email, password} = data.success;
         let sql = "insert into users (nom, prenom, email, password) values(?, ?, ?, ?)";
-        let verif = "select * from users where email = ?";
-        
-        return new Promise((resolve, reject) =>{
-            dbConnect.query(verif, [email], (error, resultat) =>{
-                console.log('resultat', resultat);
-                console.log('error', error);
-            if (resultat == '') {
-                
-                const hashpassword = bcrypt.hashSync(password, 8);
-                dbConnect.query(sql, [nom, prenom, email, hashpassword], (error, result) =>{
-                    if (error) {
-                        reject(error);
-                    }else{
-                        resolve(result);
-                        console.log("success",result);
-                    }
-                });
-                
+                console.log("query data", data);   
+        const hashpassword = bcrypt.hashSync(password, 8);
+        dbConnect.query(sql, [nom, prenom, email, hashpassword], (error, result) =>{
+            if (error) {
+                return error;
             }else{
-                reject({message: "email exist"})
+                console.log("success",result);
+                return result;
             }
-        })
-
-       
-        })
+        });
     }
 
     static connexion = (data) =>{

@@ -1,12 +1,13 @@
 const {request, response} = require('express');
 const userQuery = require('../queryFloder/query');
 const {validationResult } = require('express-validator');
-const bcryptjs = require('bcryptjs');
 const bcrypt = require('bcryptjs/dist/bcrypt');
 const jwt = require('jsonwebtoken')
 // const {promisify} = require('util');
 const userToken = require('../middleware/token');
 const envoiMail = require('../middleware/nodemailer');
+const { verifToken } = require('../middleware/token');
+
 
 
 
@@ -32,11 +33,13 @@ const userController = class{
         res.render('connexion', {err: ""});
     }
 
+    
+
     static afficheCreateCompte = (req = request, res = response) =>{
         res.render('../views/creatCompte',{err:{}} );
     }
 
-    static insert = async (req = request, res = response) =>{
+    static insert = (req = request, res = response) =>{
 
         const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -48,19 +51,27 @@ const userController = class{
                 
                 let token = userToken.creatToken(req.body);
                 envoiMail(req.body.email, token)
-
-                // verifToken(token)
-                // userQuery.insertDonnees(req.body)
-                // .then(success =>{
-                //     console.log("pen",req.body);
-                //     res.redirect('/connexion');
-                // })
-                // .catch(error =>{
-                //     res.render('creatCompte',{err:error})
-                //     console.log(error);
-                // })
+                res.redirect('/connexion')
+               
                 
             }
+    }
+
+    static afficheConnexionToken = (req = request, res = response) =>{
+        
+        let idtoken = req.params.id;
+        console.log("idtoken", idtoken);
+        let tokenVerif = verifToken(idtoken)
+        console.log(tokenVerif);
+
+        if (tokenVerif.success) {
+            userQuery.insertDonnees(tokenVerif)
+            res.redirect('/connexion');
+
+        }else{
+            res.redirect('/creatCompte')
+        }
+
     }
 
     static connexion = (req = request, res = response) =>{
