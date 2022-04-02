@@ -33,6 +33,22 @@ const userQuery = class{
         })
     }
 
+    static verificationMail = (data) =>{
+        return new Promise((resolve, reject) =>{
+            let {email} = data;
+            let sql = "select * from users where email = ?";
+            dbConnect.query(sql, [email], (err, res) =>{
+                if (res == " ") {
+                    console.log("success",res);
+                    resolve({message: "success"})
+                }else{
+                    console.log("erreur de conexion");
+                    reject({message: "Email existe"})
+                }
+            });
+        })
+    }
+
 }
 
 module.exports = userQuery;

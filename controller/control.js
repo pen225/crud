@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 const userToken = require('../middleware/token');
 const envoiMail = require('../middleware/nodemailer');
 const { verifToken } = require('../middleware/token');
+const dbConnect = require('../database');
+
 
 
 
@@ -48,12 +50,16 @@ const userController = class{
                 console.log(err);
                 // return res.status(422).jsonp(errors.array());
             }else{
-                
-                let token = userToken.creatToken(req.body);
-                envoiMail(req.body.email, token)
-                res.redirect('/connexion')
-               
-                
+                userQuery.verificationMail(req.body.email)
+                .then(success =>{
+                    let token = userToken.creatToken(req.body);
+                    envoiMail(req.body.email, token)
+                    res.redirect('/connexion')
+                })
+                .catch(error =>{
+                    console.log("error");
+                    res.render('creatCompte', {err: error})
+                })
             }
     }
 
