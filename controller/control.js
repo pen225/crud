@@ -54,7 +54,7 @@ const userController = class{
                 .then(success =>{
                     let token = userToken.creatToken(req.body);
                     envoiMail(req.body.email, token)
-                    res.redirect('/connexion')
+                    res.send('Vérifiez votre boite mail pour terminer votre inscription');
                 })
                 .catch(error =>{
                     console.log("error");
